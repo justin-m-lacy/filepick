@@ -1,0 +1,24 @@
+{
+  "name": "filepick",
+  "version": "1.0.0",
+  "description": "HTML File Picker and Loader.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "html",
+    "input",
+    "file",
+    "pick",
+    "picker",
+    "load",
+    "loader",
+    "tag",
+    "drag",
+    "drop",
+    "multiple"
+  ],
+  "author": "Justin Lacy",
+  "license": "ISC"
+}
