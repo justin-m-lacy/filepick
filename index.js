@@ -278,6 +278,10 @@ export default class FilePicker extends EventEmitter {
 
 	}
 
+	_error( evt ) {
+		this.emit( 'error', evt );
+	}
+
 	drop(evt) {
 
 		evt.stopPropagation();
