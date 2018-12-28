@@ -1,5 +1,5 @@
 {
-  "name": "filepick",
+  "name": "file-pick",
   "version": "1.0.0",
   "description": "HTML File Picker and Loader.",
   "main": "index.js",

@@ -17,6 +17,12 @@ const ReadAs = {
 
 export { ReadAs };
 
+/**
+ * @fires FilePicker#pick
+ * @fires FilePicker#abort
+ * @fires FilePicker#load
+ * @fires FilePicker#complete
+ */
 export default class FilePicker extends EventEmitter {
 
 	/**
@@ -132,7 +138,7 @@ export default class FilePicker extends EventEmitter {
 
 		}
 
-		this.selectLambda = e=>this.fileSelected(e);
+		this.selectLambda = e=>this.dispatch(e.target.files);
 		this.dragLambda = e=>this.dragOver(e);
 		this.dropLambda = e=>this.drop(e);
 
@@ -167,20 +173,17 @@ export default class FilePicker extends EventEmitter {
 		}
 	
 	}
-
-	fileSelected( evt) {
-
-		var files = evt.target.files;
-		this.dispatch( files );
-
-	}
 	
 	dispatch( files ) {
 
 		if ( !files || files.length === 0 ) return;
 
-		if ( this._multiple === true ) this.emit( 'picked', files );
-		else this.emit('picked', files[0]);
+		/**
+		 * @event FilePicker#pick
+		 * @type {FileList|File} the file[s] picked.
+		 */
+		if ( this._multiple === true ) this.emit( 'pick', files );
+		else this.emit('pick', files[0]);
 
 		if ( this._readAs ) this._readAll( files );
 
@@ -190,7 +193,7 @@ export default class FilePicker extends EventEmitter {
 
 		this._loading = this._loaded = 0;
 
-		if ( files instanceof Array ) {
+		if ( files instanceof FileList ) {
 
 			this._loading = files.length;
 			for( let i = files.length-1; i>=0; i-- ) this._read( files[i] );
@@ -216,7 +219,11 @@ export default class FilePicker extends EventEmitter {
 			this._readers[i].abort();
 		}
 
-		this.emit('abort');
+		/**
+		 * @event FilePicker#abort
+		 * @type {FilePicker}
+ 		*/
+		this.emit('abort', this );
 
 	}
 
@@ -226,10 +233,20 @@ export default class FilePicker extends EventEmitter {
 		reader.onload = ()=> {
 
 			this._loaded++;
-			this.emit( 'loaded', reader.result );
+			/**
+			 * Single file loaded.
+			 * @event FilePicker#load
+			 * @type {*} Data loaded.
+			 */
+			this.emit( 'load', reader.result );
 
 			if ( ++this._loaded === this._loading ) {
 
+				/**
+				 * All files loaded.
+				 * @event FilePicker#complete
+				 * @type {Array} Array of files loaded.
+				 */
 				if ( this._readers.length === 1 ) this.emit('complete', this._readers[0].result )
 				else this.emit( 'complete', this._readers.map( r=>r.result) );
 
