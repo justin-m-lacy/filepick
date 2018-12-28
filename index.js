@@ -138,6 +138,8 @@ export default class FilePicker extends EventEmitter {
 
 		}
 
+		if ( onpick ) this.on( 'pick', onpick );
+
 		this.selectLambda = e=>this.dispatch(e.target.files);
 		this.dragLambda = e=>this.dragOver(e);
 		this.dropLambda = e=>this.drop(e);
