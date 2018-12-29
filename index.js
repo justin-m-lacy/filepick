@@ -21,7 +21,7 @@ export { ReadAs };
  * @fires FilePicker#pick
  * @fires FilePicker#abort
  * @fires FilePicker#load
- * @fires FilePicker#complete
+ * @fires FilePicker#loadend
  */
 export default class FilePicker extends EventEmitter {
 
@@ -89,12 +89,12 @@ export default class FilePicker extends EventEmitter {
 	}
 
 	/**
-	 * {Number} Number of images currently loading.
+	 * {Number} Number of files currently loading.
 	*/
 	get loading() { return this._loading; }
 
 	/**
-	 * {Number} Number of images with loading completed.
+	 * {Number} Number of files with loading completed.
 	 */
 	get loaded() { return this._loaded;}
 
@@ -246,11 +246,11 @@ export default class FilePicker extends EventEmitter {
 
 				/**
 				 * All files loaded.
-				 * @event FilePicker#complete
+				 * @event FilePicker#loadend
 				 * @type {Array} Array of files loaded.
 				 */
-				if ( this._readers.length === 1 ) this.emit('complete', this._readers[0].result )
-				else this.emit( 'complete', this._readers.map( r=>r.result) );
+				if ( this._readers.length === 1 ) this.emit('loadend', this._readers[0].result )
+				else this.emit( 'loadend', this._readers.map( r=>r.result) );
 
 			}
 
