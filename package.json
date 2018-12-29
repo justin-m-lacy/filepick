@@ -1,6 +1,6 @@
 {
   "name": "pickfiles",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "HTML File Picker and Loader.",
   "main": "index.js",
   "scripts": {
